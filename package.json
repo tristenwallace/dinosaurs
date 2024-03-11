@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "lint": "eslint '*/**/*.{js,jsx}'",
+    "lint": "eslint . --ext .js",
     "format": "prettier --write '**/*.{js,jsx,json,css}'"
   },
   "author": "",
