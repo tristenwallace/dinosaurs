@@ -70,6 +70,15 @@ if (typeof document !== 'undefined') {
     human.diet = diet.toLowerCase(); // Update diet
 
     generateGrid(dinos);
+
+    // Hide form
+    document.getElementById('dino-compare').style.display = 'none';
+
+    // Make header link to home
+    document.getElementById('dinosaursHeader').classList.add('clickable');
+    document.getElementById('dinosaursHeader').addEventListener('click', function() {
+      window.location.reload();
+    });
   });
 }
 

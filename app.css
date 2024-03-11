@@ -39,6 +39,10 @@ p {
   font-weight: 100;
 }
 
+.clickable {
+  cursor: pointer;
+}
+
 /* Grid Styles */
 #grid {
   background: #fff url(images/tracks.png) no-repeat;
