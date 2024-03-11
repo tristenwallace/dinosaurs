@@ -1,5 +1,5 @@
 // Dinos Constructor
-class Dino {
+export class Dino {
   constructor({ species, weight, height, diet, where, when, fact }) {
     this.image = `images/${species.toLowerCase()}.png`;
     this.species = species;
@@ -9,6 +9,35 @@ class Dino {
     this.where = where;
     this.when = when;
     this.fact = fact;
+  }
+
+  // Create Dino Compare Method 1: Comparing weight
+  compareWeight(yourWeight) {
+    const diff = Math.abs(this.weight - yourWeight);
+    return this.weight > yourWeight
+      ? `${this.species} was ${diff} lbs heavier than you!`
+      : `${this.species} was ${diff} lbs lighter than you!`;
+  }
+
+  // Create Dino Compare Method 2: Comparing height
+  compareHeight(yourHeight) {
+    const diff = Math.abs(this.height - yourHeight);
+    return this.height > yourHeight
+      ? `${this.species} was ${diff} inches taller than you!`
+      : `${this.species} was ${diff} inches shorter than you!`;
+  }
+
+  // Create Dino Compare Method 3: Comparing diet
+  compareDiet(yourDiet) {
+    if (yourDiet.toLowerCase() === this.diet.toLowerCase()) {
+      return `${this.species} is a ${this.diet}. You both eat the same things!`;
+    } else if (this.diet.toLowerCase() === 'carnivor') {
+      return `${this.species} is a ${this.diet}. It could eat you!`;
+    } else if (this.diet.toLowerCase() === 'herbavor') {
+      return `${this.species} is a ${this.diet}. It only eats leafy things!`;
+    } else {
+      return `${this.species} is a ${this.diet}. Let's have a feast!`;
+    }
   }
 }
 
@@ -67,7 +96,7 @@ if (typeof document !== 'undefined') {
     human.name = name;
     human.height = feet * 12 + inches; // Convert height to inches and update
     human.weight = weight; // Update weight
-    human.diet = diet.toLowerCase(); // Update diet
+    human.diet = diet; // Update diet
 
     generateGrid(dinos);
 
@@ -76,18 +105,18 @@ if (typeof document !== 'undefined') {
 
     // Make header link to home
     document.getElementById('dinosaursHeader').classList.add('clickable');
-    document.getElementById('dinosaursHeader').addEventListener('click', function() {
-      window.location.reload();
-    });
+    document
+      .getElementById('dinosaursHeader')
+      .addEventListener('click', function () {
+        window.location.reload();
+      });
   });
 }
 
-
 // Generate Grid
 export function generateGrid(dinos) {
-
   const grid = document.getElementById('grid');
-  
+
   // Hide grid (hide/change/show pattern)
   grid.style.display = 'none';
 
@@ -101,10 +130,9 @@ export function generateGrid(dinos) {
 
 // Generate Tile for mapping
 export function generateTile(dino) {
-
-  const documentFragment = document.createDocumentFragment(); 
+  const documentFragment = document.createDocumentFragment();
   const containerDiv = document.createElement('div');
-  
+
   containerDiv.className = 'grid-item';
 
   const title = document.createElement('h3');
@@ -124,10 +152,10 @@ export function generateTile(dino) {
   }
 
   containerDiv.appendChild(title);
-  containerDiv.appendChild(img)
+  containerDiv.appendChild(img);
   containerDiv.appendChild(fact);
   documentFragment.appendChild(containerDiv);
-  
+
   return documentFragment;
 }
 
