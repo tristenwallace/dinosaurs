@@ -37,11 +37,43 @@ document.getElementById('btn').addEventListener('click', (e) => {
   e.preventDefault(); // Prevent the default form submission
 
   // Get form inputs
-  const name = document.getElementById('name').value;
+  const name = document.getElementById('name').value.trim();
   const feet = parseInt(document.getElementById('feet').value);
   const inches = parseInt(document.getElementById('inches').value);
   const weight = parseInt(document.getElementById('weight').value);
   const diet = document.getElementById('diet').value;
+
+  // Validation checks
+  let validationPassed = true;
+  let validationMessages = [];
+
+  if (!name) {
+      validationPassed = false;
+      validationMessages.push("Name is required.");
+  }
+  if (isNaN(feet) || feet <= 0) {
+      validationPassed = false;
+      validationMessages.push("Please enter a valid number of feet.");
+  }
+  if (isNaN(inches) || inches < 0 || inches >= 12) {
+      validationPassed = false;
+      validationMessages.push("Inches must be between 0 and 11.");
+  }
+  if (isNaN(weight) || weight <= 0) {
+      validationPassed = false;
+      validationMessages.push("Please enter a valid weight.");
+  }
+  if (!diet) {
+      validationPassed = false;
+      validationMessages.push("Diet selection is required.");
+  }
+
+  if (!validationPassed) {
+      // Handle failed validation
+      // Display validation messages to the user
+      alert(validationMessages.join("\n"));
+      return; // Stop further execution
+  }
 
   // Update human object properties
   human.name = name;
