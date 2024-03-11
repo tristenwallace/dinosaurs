@@ -1,6 +1,7 @@
 // Dinos Constructor
 class Dino {
   constructor({ species, weight, height, diet, where, when, fact }) {
+    this.image = `images/${species.toLowerCase()}.png`;
     this.species = species;
     this.weight = weight;
     this.height = height;
@@ -11,26 +12,32 @@ class Dino {
   }
 }
 
-// Async load dinos data
-if (typeof document !== 'undefined') {
-  fetch('./dino.json')
-    .then((response) => response.json())
-    .then((data) => {
-      const Dinos = data.Dinos.map((dinoData) => new Dino(dinoData));
-      console.log(Dinos);
-    })
-    .catch((error) => console.error('Error fetching JSON:', error));
-}
+let dinos = [];
+
 // Define default human object
 let human = new Dino({
-  species: 'Homo Sapien',
+  species: 'human',
   weight: 150,
   height: 66,
   diet: 'omnivor',
   where: 'World Wide',
   when: 'The Modern Age',
-  fact: 'Humans: the original software that can update itself, proving you can teach an old brain new tricks!',
+  fact: 'Humans are the original software that updates itself!',
 });
+
+// Async load dinos data
+if (typeof document !== 'undefined') {
+  fetch('./dino.json')
+    .then((response) => response.json())
+    .then((data) => {
+      dinos = data.Dinos.map((dinoData) => new Dino(dinoData));
+
+      // Add human to middle of Dinos array
+      dinos.splice(4, 0, human);
+      console.log(dinos);
+    })
+    .catch((error) => console.error('Error fetching JSON:', error));
+}
 
 // Update human object based on form inputs
 // check if in browser
@@ -62,9 +69,68 @@ if (typeof document !== 'undefined') {
     human.weight = weight; // Update weight
     human.diet = diet.toLowerCase(); // Update diet
 
-    console.log(human);
+    generateGrid(dinos);
+
+    // Hide form
+    document.getElementById('dino-compare').style.display = 'none';
+
+    // Make header link to home
+    document.getElementById('dinosaursHeader').classList.add('clickable');
+    document.getElementById('dinosaursHeader').addEventListener('click', function() {
+      window.location.reload();
+    });
   });
 }
+
+
+// Generate Grid
+export function generateGrid(dinos) {
+
+  const grid = document.getElementById('grid');
+  
+  // Hide grid (hide/change/show pattern)
+  grid.style.display = 'none';
+
+  // Add grid items
+  const tiles = dinos.map(generateTile);
+  tiles.forEach((tile) => grid.appendChild(tile));
+
+  //Reshow grid
+  grid.style.display = 'flex';
+}
+
+// Generate Tile for mapping
+export function generateTile(dino) {
+
+  const documentFragment = document.createDocumentFragment(); 
+  const containerDiv = document.createElement('div');
+  
+  containerDiv.className = 'grid-item';
+
+  const title = document.createElement('h3');
+  const fact = document.createElement('p');
+  const img = document.createElement('img');
+  img.src = dino.image;
+
+  if (dino.species === 'human') {
+    title.innerHTML = human.name;
+    fact.innerHTML = dino.fact;
+  } else if (dino.species === 'Pigeon') {
+    title.innerHTML = dino.species;
+    fact.innerHTML = dino.fact;
+  } else {
+    title.innerHTML = dino.species;
+    fact.innerHTML = dino.fact; // Update this after creating comparison methods
+  }
+
+  containerDiv.appendChild(title);
+  containerDiv.appendChild(img)
+  containerDiv.appendChild(fact);
+  documentFragment.appendChild(containerDiv);
+  
+  return documentFragment;
+}
+
 // Form Validation Checks
 export function validateForm(name, feet, inches, weight, diet) {
   let validationPassed = true;
