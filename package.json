@@ -1,0 +1,18 @@
+{
+  "name": "dinosaurs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "lint": "eslint '*/**/*.{js,jsx}'",
+    "format": "prettier --write '**/*.{js,jsx,json,css}'"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.1.3",
+    "prettier": "3.2.5"
+  }
+}

@@ -136,3 +136,7 @@ cython_debug/
 
 # Notes
 notes.txt
+
+#JS Modules
+node_modules/
+package-lock.json
