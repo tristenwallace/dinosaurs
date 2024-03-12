@@ -63,7 +63,6 @@ if (typeof document !== 'undefined') {
 
       // Add human to middle of Dinos array
       dinos.splice(4, 0, human);
-      console.log(dinos);
     })
     .catch((error) => console.error('Error fetching JSON:', error));
 }
@@ -72,7 +71,6 @@ if (typeof document !== 'undefined') {
 // check if in browser
 if (typeof document !== 'undefined') {
   document.getElementById('btn').addEventListener('click', (e) => {
-    console.log('Form submitted');
     e.preventDefault(); // Prevent the default form submission
 
     // Get form inputs
@@ -113,6 +111,34 @@ if (typeof document !== 'undefined') {
   });
 }
 
+// Get random integer
+function getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max));
+}
+
+// Get random dino fact
+function getRandomFact(dino, human) {
+  const facts = [
+    () => dino.compareHeight(human.height),
+    () => dino.compareWeight(human.weight),
+    () => dino.compareDiet(human.diet),
+    `The ${dino.species} lived in what is now ${dino.where}.`,
+    `The ${dino.species} was found in the ${dino.when}.`,
+    dino.fact,
+  ];
+
+  // Generate a random index
+  const randomIndex = getRandomInt(facts.length);
+
+  // If the selected fact is a function, invoke it; otherwise, return the string
+  const result =
+    typeof facts[randomIndex] === 'function'
+      ? facts[randomIndex]()
+      : facts[randomIndex];
+
+  return result;
+}
+
 // Generate Grid
 export function generateGrid(dinos) {
   const grid = document.getElementById('grid');
@@ -142,13 +168,13 @@ export function generateTile(dino) {
 
   if (dino.species === 'human') {
     title.innerHTML = human.name;
-    fact.innerHTML = dino.fact;
+    //fact.innerHTML = dino.fact;
   } else if (dino.species === 'Pigeon') {
     title.innerHTML = dino.species;
     fact.innerHTML = dino.fact;
   } else {
     title.innerHTML = dino.species;
-    fact.innerHTML = dino.fact; // Update this after creating comparison methods
+    fact.innerHTML = getRandomFact(dino, human);
   }
 
   containerDiv.appendChild(title);
