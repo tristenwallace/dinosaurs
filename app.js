@@ -1,17 +1,17 @@
-// Dinos Constructor
+// Represents a dinosaur or a human with various attributes
 export class Dino {
   constructor({ species, weight, height, diet, where, when, fact }) {
-    this.image = `images/${species.toLowerCase()}.png`;
+    this.image = `images/${species.toLowerCase()}.png`; // Image path based on species
     this.species = species;
-    this.weight = weight;
-    this.height = height;
+    this.weight = weight; // in lbs
+    this.height = height; // in inches
     this.diet = diet;
-    this.where = where;
-    this.when = when;
-    this.fact = fact;
+    this.where = where; // Geographic location
+    this.when = when; // Time period
+    this.fact = fact; // Interesting fact
   }
 
-  // Create Dino Compare Method 1: Comparing weight
+  // Compares the weight of a Dino object with a given weight
   compareWeight(yourWeight) {
     const diff = Math.abs(this.weight - yourWeight);
     return this.weight > yourWeight
@@ -19,7 +19,7 @@ export class Dino {
       : `${this.species} was ${diff} lbs lighter than you!`;
   }
 
-  // Create Dino Compare Method 2: Comparing height
+  // Compares the height of a Dino object with a given height
   compareHeight(yourHeight) {
     const diff = Math.abs(this.height - yourHeight);
     return this.height > yourHeight
@@ -27,7 +27,7 @@ export class Dino {
       : `${this.species} was ${diff} inches shorter than you!`;
   }
 
-  // Create Dino Compare Method 3: Comparing diet
+  // Compares the diet of a Dino object with a given diet
   compareDiet(yourDiet) {
     if (yourDiet.toLowerCase() === this.diet.toLowerCase()) {
       return `${this.species} is a ${this.diet}. You both eat the same things!`;
@@ -41,9 +41,9 @@ export class Dino {
   }
 }
 
-let dinos = [];
+let dinos = []; // Stores Dino objects
 
-// Define default human object
+// Default human object, acting as a Dino object for comparison purposes
 let human = new Dino({
   species: 'human',
   weight: 150,
@@ -54,7 +54,7 @@ let human = new Dino({
   fact: 'Humans are the original software that updates itself!',
 });
 
-// Async load dinos data
+// Asynchronously load Dino data from a JSON file and populate the dinos array
 if (typeof document !== 'undefined') {
   fetch('./dino.json')
     .then((response) => response.json())
@@ -62,46 +62,40 @@ if (typeof document !== 'undefined') {
       dinos = data.Dinos.map((dinoData) => new Dino(dinoData));
 
       // Add human to middle of Dinos array
-      dinos.splice(4, 0, human);
+      dinos.splice(4, 0, human); // Inserts the human object into the middle of the Dinos array
     })
     .catch((error) => console.error('Error fetching JSON:', error));
 }
 
-// Update human object based on form inputs
-// check if in browser
+// Updates the human object properties based on form inputs
 if (typeof document !== 'undefined') {
   document.getElementById('btn').addEventListener('click', (e) => {
     e.preventDefault(); // Prevent the default form submission
 
-    // Get form inputs
+    // Retrieves and validates form inputs
     const name = document.getElementById('name').value.trim();
     const feet = parseInt(document.getElementById('feet').value);
     const inches = parseInt(document.getElementById('inches').value);
     const weight = parseInt(document.getElementById('weight').value);
     const diet = document.getElementById('diet').value;
-
-    // Validation checks
     const validationResult = validateForm(name, feet, inches, weight, diet);
 
     if (!validationResult.isValid) {
-      // Handle failed validation
-      // Display validation messages to the user
-      alert(validationResult.errors.join('\n'));
-      return; // Stop further execution
+      alert(validationResult.errors.join('\n')); // Displays validation errors
+      return; // Exits the function if validation fails
     }
 
-    // Update human object properties
+    // Updates the human object with form data
     human.name = name;
-    human.height = feet * 12 + inches; // Convert height to inches and update
-    human.weight = weight; // Update weight
-    human.diet = diet; // Update diet
+    human.height = feet * 12 + inches;
+    human.weight = weight;
+    human.diet = diet;
 
-    generateGrid(dinos);
+    generateGrid(dinos); // Generates the grid display
 
-    // Hide form
-    document.getElementById('dino-compare').style.display = 'none';
+    document.getElementById('dino-compare').style.display = 'none'; // Hides the form
 
-    // Make header link to home
+    // Enables clicking on the header to reload the page
     document.getElementById('dinosaursHeader').classList.add('clickable');
     document
       .getElementById('dinosaursHeader')
@@ -111,12 +105,12 @@ if (typeof document !== 'undefined') {
   });
 }
 
-// Get random integer
+// Utility function to generate a random integer within a range
 function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
 }
 
-// Get random dino fact
+// Selects a random fact about a Dino object
 function getRandomFact(dino, human) {
   const facts = [
     () => dino.compareHeight(human.height),
