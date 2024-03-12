@@ -36,20 +36,19 @@ describe('Form Validation', () => {
   });
 });
 
-
 // Test Dino comparison methods
 describe('Dino Class', () => {
   // Create a Dino instance
   const dino = new Dino({
-    "species": "Triceratops",
-    "weight": 13000,
-    "height": 114,
-    "diet": "herbavor",
-    "where": "North America",
-    "when": "Late Cretaceous",
-    "fact": "First discovered in 1889 by Othniel Charles Marsh"
+    species: 'Triceratops',
+    weight: 13000,
+    height: 114,
+    diet: 'herbavor',
+    where: 'North America',
+    when: 'Late Cretaceous',
+    fact: 'First discovered in 1889 by Othniel Charles Marsh',
   });
-  
+
   it('should correctly compare the dinosaur weight with the human weight', () => {
     // Test: Human weighs less
     let result = dino.compareWeight(150);
@@ -73,10 +72,14 @@ describe('Dino Class', () => {
   it('should correctly compare the dinosaur diet with the human diet', () => {
     // Test: Same diet
     let result = dino.compareDiet('herbavor');
-    expect(result).toBe('Triceratops is a herbavor. You both eat the same things!');
+    expect(result).toBe(
+      'Triceratops is a herbavor. You both eat the same things!',
+    );
 
     // Test: Different diet
     result = dino.compareDiet('carnivor');
-    expect(result).toBe('Triceratops is a herbavor. It only eats leafy things!');
-});
+    expect(result).toBe(
+      'Triceratops is a herbavor. It only eats leafy things!',
+    );
+  });
 });
